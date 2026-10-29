@@ -1,0 +1,63 @@
+provider: connecteam
+display_name: Connecteam
+auth_scheme: api_key
+auth_placement: custom_header:X-API-KEY
+api_hosts:
+  - api.connecteam.com
+  - api-au.connecteam.com
+base_url: https://api.connecteam.com
+base_url_au: https://api-au.connecteam.com
+server:
+  command: python3
+  args:
+    - bin/connecteam-mcp.py
+  transport: stdio
+  env:
+    - CONNECTEAM_API_KEY
+    - CONNECTEAM_BASE_URL
+tools:
+  - name: get_account
+    method: GET
+    path: /me
+    verified: true
+    gated: false
+  - name: list_users
+    method: GET
+    path: /users/v1/users
+    verified: true
+    gated: false
+  - name: list_jobs
+    method: GET
+    path: /jobs/v1/jobs
+    verified: true
+    gated: false
+  - name: list_shifts
+    method: GET
+    path: /scheduler/v1/schedulers/{schedulerId}/shifts
+    verified: path only, GET method pending live confirmation
+    gated: false
+  - name: get_user_unavailability
+    method: GET
+    path: /scheduler/v1/schedulers/user-unavailability
+    verified: true
+    gated: false
+  - name: get_shift_auto_assign
+    method: GET
+    path: /scheduler/v1/schedulers/{schedulerId}/shifts/auto-assign/{requestId}
+    verified: true
+    gated: false
+  - name: create_shift
+    method: POST
+    path: /scheduler/v1/schedulers/{schedulerId}/shifts
+    verified: true
+    gated: true
+  - name: delete_shift
+    method: DELETE
+    path: /scheduler/v1/schedulers/{schedulerId}/shifts/{shiftId}
+    verified: true
+    gated: true
+  - name: generate_upload_url
+    method: POST
+    path: /attachments/v1/files/generate-upload-url
+    verified: true
+    gated: false
